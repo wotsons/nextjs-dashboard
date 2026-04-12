@@ -1,6 +1,4 @@
-'use client';
-
-import { useEffect } from 'react';
+"use client";
 
 export default function InvoiceError({
   error,
