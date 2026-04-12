@@ -101,9 +101,18 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
+function isSeedAllowed() {
+  if (process.env.ALLOW_SEED === 'true') return true;
+  return process.env.NODE_ENV !== 'production';
+}
+
 export async function GET() {
+  if (!isSeedAllowed()) {
+    return Response.json({ message: 'Not found' }, { status: 404 });
+  }
+
   try {
-    const result = await sql.begin((sql) => [
+    await sql.begin(() => [
       seedUsers(),
       seedCustomers(),
       seedInvoices(),
@@ -112,6 +121,11 @@ export async function GET() {
 
     return Response.json({ message: 'Database seeded successfully' });
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    console.error('Seed error:', error);
+    const body =
+      process.env.NODE_ENV === 'production'
+        ? { message: 'Failed to seed database.' }
+        : { message: 'Failed to seed database.', error: String(error) };
+    return Response.json(body, { status: 500 });
   }
 }
