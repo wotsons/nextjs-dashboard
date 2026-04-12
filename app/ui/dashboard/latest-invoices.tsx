@@ -1,8 +1,8 @@
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
-import Image from 'next/image';
-import { lusitana } from '@/app/ui/fonts';
-import { fetchLatestInvoices } from '@/app/lib/data';
+import { fetchLatestInvoices } from "@/app/lib/data";
+import { lusitana } from "@/app/ui/fonts";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import Image from "next/image";
 
 export default async function LatestInvoices() {
   const latestInvoices = await fetchLatestInvoices();
@@ -13,17 +13,21 @@ export default async function LatestInvoices() {
         Latest Invoices
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-        {/* NOTE: Uncomment this code in Chapter 7 */}
-
         <div className="bg-white px-6">
+          {latestInvoices.length === 0 && (
+            <p className="py-8 text-center text-sm text-gray-500">
+              No invoices yet. Seed the database or create invoices from the
+              Invoices page.
+            </p>
+          )}
           {latestInvoices.map((invoice, i) => {
             return (
               <div
                 key={invoice.id}
                 className={clsx(
-                  'flex flex-row items-center justify-between py-4',
+                  "flex flex-row items-center justify-between py-4",
                   {
-                    'border-t': i !== 0,
+                    "border-t": i !== 0,
                   },
                 )}
               >

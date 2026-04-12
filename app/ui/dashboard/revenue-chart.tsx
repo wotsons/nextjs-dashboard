@@ -9,17 +9,22 @@ import { fetchRevenue } from '@/app/lib/data';
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function RevenueChart() { // Make component async, remove the props
+export default async function RevenueChart() {
   const revenue = await fetchRevenue();
 
-  const chartHeight = 350;
-  // NOTE: Uncomment this code in Chapter 7
-
-  const { yAxisLabels, topLabel } = generateYAxis(revenue);
-
   if (!revenue || revenue.length === 0) {
-    return <p className="mt-4 text-gray-400">No data available.</p>;
+    return (
+      <div className="w-full md:col-span-4">
+        <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+          Recent Revenue
+        </h2>
+        <p className="mt-4 text-gray-500">No revenue data yet.</p>
+      </div>
+    );
   }
+
+  const chartHeight = 350;
+  const { yAxisLabels, topLabel } = generateYAxis(revenue);
 
   return (
     <div className="w-full md:col-span-4">

@@ -5,6 +5,8 @@ import { fetchFilteredCustomers } from '@/app/lib/data';
 
 export default async function CustomersTable({ query }: { query: string }) {
   const customers = await fetchFilteredCustomers(query);
+  const hasCustomers = customers.length > 0;
+
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
@@ -15,8 +17,14 @@ export default async function CustomersTable({ query }: { query: string }) {
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
-              <div className="md:hidden">
-                {customers?.map((customer) => (
+              {!hasCustomers ? (
+                <p className="rounded-md bg-white p-8 text-center text-sm text-gray-500">
+                  No customers found
+                  {query ? ` for "${query}".` : '.'} Try another search.
+                </p>
+              ) : null}
+              <div className={hasCustomers ? 'md:hidden' : 'hidden'}>
+                {customers.map((customer) => (
                   <div
                     key={customer.id}
                     className="mb-2 w-full rounded-md bg-white p-4"
@@ -56,7 +64,13 @@ export default async function CustomersTable({ query }: { query: string }) {
                   </div>
                 ))}
               </div>
-              <table className="hidden min-w-full rounded-md text-gray-900 md:table">
+              <table
+                className={
+                  hasCustomers
+                    ? 'hidden min-w-full rounded-md text-gray-900 md:table'
+                    : 'hidden'
+                }
+              >
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
