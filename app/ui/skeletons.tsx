@@ -108,31 +108,31 @@ export function TableRowSkeleton() {
       {/* Customer Name and Image */}
       <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-gray-100"></div>
-          <div className="h-6 w-24 rounded bg-gray-100"></div>
+          <div className="h-8 w-8 rounded-full bg-gray-100" />
+          <div className="h-6 w-24 rounded bg-gray-100" />
         </div>
       </td>
       {/* Email */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-32 rounded bg-gray-100"></div>
+        <div className="h-6 w-32 rounded bg-gray-100" />
       </td>
       {/* Amount */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100" />
       </td>
       {/* Date */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100" />
       </td>
       {/* Status */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100" />
       </td>
       {/* Actions */}
       <td className="whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex justify-end gap-3">
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
+          <div className="h-[38px] w-[38px] rounded bg-gray-100" />
+          <div className="h-[38px] w-[38px] rounded bg-gray-100" />
         </div>
       </td>
     </tr>
@@ -144,19 +144,19 @@ export function InvoicesMobileSkeleton() {
     <div className="mb-2 w-full rounded-md bg-white p-4">
       <div className="flex items-center justify-between border-b border-gray-100 pb-8">
         <div className="flex items-center">
-          <div className="mr-2 h-8 w-8 rounded-full bg-gray-100"></div>
-          <div className="h-6 w-16 rounded bg-gray-100"></div>
+          <div className="mr-2 h-8 w-8 rounded-full bg-gray-100" />
+          <div className="h-6 w-16 rounded bg-gray-100" />
         </div>
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100" />
       </div>
       <div className="flex w-full items-center justify-between pt-4">
         <div>
-          <div className="h-6 w-16 rounded bg-gray-100"></div>
-          <div className="mt-2 h-6 w-24 rounded bg-gray-100"></div>
+          <div className="h-6 w-16 rounded bg-gray-100" />
+          <div className="mt-2 h-6 w-24 rounded bg-gray-100" />
         </div>
         <div className="flex justify-end gap-2">
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
+          <div className="h-10 w-10 rounded bg-gray-100" />
+          <div className="h-10 w-10 rounded bg-gray-100" />
         </div>
       </div>
     </div>
@@ -211,6 +211,78 @@ export function InvoicesTableSkeleton() {
               <TableRowSkeleton />
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomerRowSkeleton() {
+  return (
+    <tr className="w-full border-b border-gray-100 last-of-type:border-none">
+      <td className="whitespace-nowrap py-5 pl-4 pr-3 sm:pl-6">
+        <div className="flex items-center gap-3">
+          <div className="h-7 w-7 rounded-full bg-gray-100" />
+          <div className="h-5 w-28 rounded bg-gray-100" />
+        </div>
+      </td>
+      <td className="whitespace-nowrap px-4 py-5">
+        <div className="h-5 w-40 rounded bg-gray-100" />
+      </td>
+      <td className="whitespace-nowrap px-4 py-5">
+        <div className="h-5 w-8 rounded bg-gray-100" />
+      </td>
+      <td className="whitespace-nowrap px-4 py-5">
+        <div className="h-5 w-16 rounded bg-gray-100" />
+      </td>
+      <td className="whitespace-nowrap px-4 py-5">
+        <div className="h-5 w-16 rounded bg-gray-100" />
+      </td>
+    </tr>
+  );
+}
+
+export function CustomersTableSkeleton() {
+  return (
+    <div className="w-full">
+      <div
+        className={`${shimmer} relative mb-8 h-8 w-36 overflow-hidden rounded-md bg-gray-100`}
+      />
+      <div
+        className={`${shimmer} relative mb-6 h-10 w-full overflow-hidden rounded-md bg-gray-100`}
+      />
+      <div className="mt-6 flow-root">
+        <div className="inline-block min-w-full align-middle">
+          <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
+            <table className="hidden min-w-full rounded-md text-gray-900 md:table">
+              <thead className="bg-gray-50 text-left text-sm font-normal">
+                <tr>
+                  <th className="px-4 py-5 font-medium sm:pl-6" scope="col">
+                    Name
+                  </th>
+                  <th className="px-3 py-5 font-medium" scope="col">
+                    Email
+                  </th>
+                  <th className="px-3 py-5 font-medium" scope="col">
+                    Total Invoices
+                  </th>
+                  <th className="px-3 py-5 font-medium" scope="col">
+                    Total Pending
+                  </th>
+                  <th className="px-4 py-5 font-medium" scope="col">
+                    Total Paid
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 bg-white">
+                <CustomerRowSkeleton />
+                <CustomerRowSkeleton />
+                <CustomerRowSkeleton />
+                <CustomerRowSkeleton />
+                <CustomerRowSkeleton />
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
