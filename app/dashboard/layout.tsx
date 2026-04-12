@@ -1,5 +1,8 @@
 import SideNav from "@/app/ui/dashboard/sidenav";
 
+/** Avoid DB access during `next build` (e.g. CI without Postgres). */
+export const dynamic = "force-dynamic";
+
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
