@@ -1,90 +1,104 @@
 # Next.js Dashboard
 
-Aplicação de dashboard inspirada no [curso oficial do Next.js App Router](https://nextjs.org/learn/dashboard-app) — gestão de faturas (invoices) e clientes, com autenticação e PostgreSQL.
+*Next.js App Router dashboard with invoices, customers, PostgreSQL, and NextAuth (credentials).*
 
 ![Dashboard preview](./docs/images/dashboard.avif)
 
-## Funcionalidades
+## Features
 
-- **Autenticação** com NextAuth (credenciais) e bcrypt
-- **Dashboard** com métricas, gráfico de receita e últimas faturas
-- **Faturas** — listagem com pesquisa e paginação, criar, editar e eliminar (Server Actions + Zod)
-- **Clientes** — listagem com pesquisa e totais por cliente
-- **Middleware** para proteger rotas sob `/dashboard`
+- Authentication (NextAuth credentials + bcrypt)
+- Dashboard metrics, revenue chart, latest invoices
+- Invoices — search, pagination, create / edit / delete (Server Actions + Zod)
+- Customers — search with invoice totals
+- Middleware protecting `/dashboard`
 
-## Stack
+## Tech stack
 
-| Tecnologia | Uso |
-|------------|-----|
+| Tech | Role |
+|------|------|
 | [Next.js 15](https://nextjs.org/) (App Router) | Framework |
 | [React](https://react.dev/) | UI |
-| [TypeScript](https://www.typescriptlang.org/) | Tipagem |
-| [Tailwind CSS](https://tailwindcss.com/) | Estilos |
-| [postgres](https://github.com/porsager/postgres) | Cliente SQL |
-| [NextAuth.js v5](https://authjs.dev/) | Sessão e login |
-| [Zod](https://zod.dev/) | Validação de formulários |
+| [TypeScript](https://www.typescriptlang.org/) | Types |
+| [Tailwind CSS](https://tailwindcss.com/) | Styling |
+| [postgres](https://github.com/porsager/postgres) | SQL client |
+| [Auth.js / NextAuth v5](https://authjs.dev/) | Session & login |
+| [Zod](https://zod.dev/) | Form validation |
 
-## Requisitos
+## Requirements
 
 - Node.js 18+
-- [pnpm](https://pnpm.io/) (recomendado; o projeto fixa a versão em `package.json`)
-- Base de dados PostgreSQL acessível via `POSTGRES_URL`
+- [pnpm](https://pnpm.io/) (version pinned in `package.json`)
+- PostgreSQL (connection string in `POSTGRES_URL`)
 
-## Configuração
+## Environment variables
 
-1. **Clonar e instalar dependências**
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `POSTGRES_URL` | Yes | Postgres connection URL (SSL as required by your host) |
+| `AUTH_SECRET` | Yes | Secret for session signing — generate with `openssl rand -base64 32` |
+| `AUTH_URL` | Yes | Base URL for Auth.js — local: `http://localhost:3000/api/auth`; production: `https://your-domain.vercel.app/api/auth` |
+| `ALLOW_SEED` | No | Set to `true` **only** if you intentionally want `GET /seed` on production |
 
-   ```bash
-   pnpm install
-   ```
+Copy `.env.example` to `.env` and fill the values. **Never commit `.env` or real secrets** — they are gitignored.
 
-2. **Variáveis de ambiente**
+On [Vercel](https://vercel.com/), add the same variables under **Project → Settings → Environment Variables** for Production (and Preview if needed).
 
-   Copia `.env.example` para `.env` e preenche pelo menos:
+## Local setup
 
-   - `POSTGRES_URL` — URL de ligação ao Postgres (SSL em produção, conforme o teu hosting)
-   - `AUTH_SECRET` — gera com `openssl rand -base64 32`
-   - `AUTH_URL` — em local, tipicamente `http://localhost:3000/api/auth`
+```bash
+pnpm install
+cp .env.example .env
+# Edit .env with POSTGRES_URL, AUTH_SECRET, AUTH_URL
+pnpm dev
+```
 
-3. **Popular a base de dados**
+### Seed the database (development only)
 
-   Com o servidor de desenvolvimento a correr, acede uma vez a:
+With `pnpm dev` running, open **once**:
 
-   ```text
-   http://localhost:3000/seed
-   ```
+```text
+http://localhost:3000/seed
+```
 
-   Isto cria tabelas e dados de exemplo (utilizadores, clientes, faturas, receita).
+In **production**, `/seed` returns **404** unless you set `ALLOW_SEED=true` (discouraged on public apps). Prefer seeding from a trusted machine against your DB, or a one-off admin script.
 
-4. **Executar em desenvolvimento**
+### Demo login (after seed)
 
-   ```bash
-   pnpm dev
-   ```
+These match the sample data in `app/lib/placeholder-data.ts` — **change or remove** for any real deployment.
 
-   Abre [http://localhost:3000](http://localhost:3000). Credenciais de exemplo vêm dos dados do seed (ver `app/lib/placeholder-data.ts`).
+| | |
+|---|---|
+| **Email** | `user@nextmail.com` |
+| **Password** | `123456` |
 
 ## Scripts
 
-| Comando | Descrição |
-|---------|-----------|
-| `pnpm dev` | Servidor de desenvolvimento (Turbopack) |
-| `pnpm build` | Build de produção |
-| `pnpm start` | Servidor de produção (após `build`) |
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Dev server (Turbopack) |
+| `pnpm build` | Production build |
+| `pnpm start` | Production server (after `build`) |
 | `pnpm lint` | ESLint |
 
-## Estrutura
+## Security notes
+
+- **Removed** the old `/query` dev route from the app surface.
+- **Production `/seed`:** disabled by default (`NODE_ENV=production` without `ALLOW_SEED=true`).
+- **Postgres:** restrict network access where your provider allows (e.g. allow only Vercel IPs or use the host’s recommended integration).
+- **Dependencies:** this template may show upgrade advisories (e.g. Next.js) — run `pnpm outdated` and follow [Next.js security advisories](https://nextjs.org/blog).
+
+## Project layout
 
 ```text
 app/
-  dashboard/     # Rotas do painel (overview, invoices, customers)
-  lib/           # Dados, actions, tipos, seeds
-  ui/            # Componentes reutilizáveis
-auth.ts          # Configuração NextAuth (providers, sessão)
-auth.config.ts   # Config partilhada (ex.: middleware)
-middleware.ts    # Proteção de rotas /dashboard
+  dashboard/     # Dashboard routes
+  lib/           # Data, actions, types, seed data
+  ui/            # Components
+auth.ts
+auth.config.ts
+middleware.ts
 ```
 
-## Licença e créditos
+## License
 
-Projeto educativo alinhado ao [Next.js Learn](https://nextjs.org/learn).
+[MIT](./LICENSE) — educational project aligned with [Next.js Learn](https://nextjs.org/learn).
